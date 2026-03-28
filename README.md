@@ -117,4 +117,4 @@ This adds the **llmsdescription** and **llmsinstructions** fields to the panel p
 
 ## License
 
-MIT — Nicolas Rollinger
+MIT — [Nicolas Rollinger](https://rollinger.ch)

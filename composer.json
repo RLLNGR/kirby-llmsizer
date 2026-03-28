@@ -1,6 +1,6 @@
 {
   "name": "rllngr/kirby-llmsizer",
-  "description": "Kirby plugin to generate /llms.txt and /sitemap.xml for AI search engines. Works in both classic and headless mode.",
+  "description": "Kirby plugin to generate /llms.txt and /llms-sitemap.xml for AI search engines. Works in both classic and headless mode.",
   "version": "1.0.0",
   "type": "kirby-plugin",
   "license": "MIT",
@@ -34,7 +34,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Nro\\KirbyLlmsizer\\": "src/"
+      "Rllngr\\KirbyLlmsizer\\": "src/"
     }
   },
   "extra": {

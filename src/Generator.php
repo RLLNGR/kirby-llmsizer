@@ -1,6 +1,6 @@
 <?php
 
-namespace Nro\KirbyLlmsizer;
+namespace Rllngr\KirbyLlmsizer;
 
 use Kirby\Cms\App;
 use Kirby\Cms\Page;
@@ -97,7 +97,7 @@ class Generator
     }
 
     /**
-     * Flush all plugin caches. Called from hooks.
+     * Flush all plugin caches. Called statically from hooks.
      */
     public static function clearCache(App $kirby): void
     {
@@ -207,20 +207,17 @@ class Generator
         $query = $config['pages'] ?? null;
         if (!$query) return [];
 
-        // Resolve pages: closure or string query
         $result = $this->resolveQuery($query);
         if (!$result) return [];
 
         $isSingle = $config['single'] ?? false;
 
-        // Normalize single page to iterable
         if ($isSingle) {
             if (!($result instanceof Page)) return [];
             if ($this->isExcluded($result)) return [];
             return [$this->resolveItem($result, $config, $full)];
         }
 
-        // Collection
         $items = [];
         $limit = $config['limit'] ?? null;
         $count = 0;
@@ -254,22 +251,18 @@ class Generator
         $exclude = $this->options['exclude'] ?? [];
         $include = $this->options['include'] ?? [];
 
-        $includePages = $include['pages'] ?? [];
-
         // Include-override: force-include despite exclusion rules
-        if (in_array($page->slug(), $includePages, true)) {
+        if (in_array($page->slug(), $include['pages'] ?? [], true)) {
             return false;
         }
 
         // Template exclusion
-        $excludeTemplates = $exclude['templates'] ?? ['error'];
-        if (in_array($page->intendedTemplate()->name(), $excludeTemplates, true)) {
+        if (in_array($page->intendedTemplate()->name(), $exclude['templates'] ?? ['error'], true)) {
             return true;
         }
 
         // Page slug exclusion
-        $excludePages = $exclude['pages'] ?? [];
-        if (in_array($page->slug(), $excludePages, true)) {
+        if (in_array($page->slug(), $exclude['pages'] ?? [], true)) {
             return true;
         }
 
@@ -286,7 +279,6 @@ class Generator
             return $query($this->kirby);
         }
 
-        // String query via Kirby's query engine (Kirby 4)
         if (is_string($query) && class_exists('\Kirby\Query\Query')) {
             return \Kirby\Query\Query::factory($query)->resolve([
                 'kirby' => $this->kirby,
@@ -307,26 +299,21 @@ class Generator
 
     protected function resolveUrl(Page $page, array $config): string
     {
-        // Explicit URL resolver
         if (isset($config['itemUrl']) && is_callable($config['itemUrl'])) {
             return (string) ($config['itemUrl'])($page);
         }
 
-        // Headless: remap Kirby URL → frontend URL
         if (($this->options['mode'] ?? 'classic') === 'headless') {
             if ($page->hasMethod('frontendUrl')) {
                 return $page->frontendUrl();
             }
-
             $kirbyBase = rtrim($this->kirby->site()->url(), '/');
-            $pageUrl   = $page->url();
-            $path      = substr($pageUrl, strlen($kirbyBase));
+            $path      = substr($page->url(), strlen($kirbyBase));
             $url       = $this->siteUrl . $path;
         } else {
             $url = $page->url();
         }
 
-        // Trailing slash
         if ($this->options['trailingSlash'] ?? false) {
             $url = rtrim($url, '/') . '/';
         }
@@ -336,7 +323,6 @@ class Generator
 
     protected function resolveDescription(Page $page, array $config, bool $full): string
     {
-        // Full mode: prefer contentField
         if ($full && isset($config['itemContent'])) {
             $content = $this->resolveField($page, $config['itemContent']);
             if ($content) return $this->clean($content);
@@ -355,7 +341,6 @@ class Generator
         $site  = $this->kirby->site();
         $value = $site->content()->get($field)->value();
 
-        // Fallback to standard description field
         if (!$value) {
             $value = $site->description()->value();
         }

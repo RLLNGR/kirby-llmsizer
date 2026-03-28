@@ -1,11 +1,11 @@
 <?php
 
 use Kirby\Cms\App;
-use Nro\KirbyLlmsizer\Generator;
+use Rllngr\KirbyLlmsizer\Generator;
 
 // Autoload plugin classes
 load([
-    'Nro\\KirbyLlmsizer\\Generator' => __DIR__ . '/src/Generator.php',
+    'Rllngr\\KirbyLlmsizer\\Generator' => __DIR__ . '/src/Generator.php',
 ]);
 
 App::plugin('rllngr/kirby-llmsizer', [
