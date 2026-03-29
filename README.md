@@ -13,6 +13,11 @@ A Kirby CMS plugin that generates `/llms.txt` and `/llms-sitemap.xml` for AI sea
 - Built-in caching with auto-invalidation on content changes
 - Panel blueprint section (`sections/llms`) with description and AI instructions fields
 
+## Requirements
+
+- Kirby 4 or 5
+- PHP 8.1+
+
 ## Installation
 
 ```bash
