@@ -20,11 +20,13 @@ A Kirby CMS plugin that generates `/llms.txt` and `/llms-sitemap.xml` for AI sea
 
 ## Installation
 
+**Via Composer** (recommended — installs automatically into `site/plugins/`):
+
 ```bash
 composer require rllngr/kirby-llmsizer
 ```
 
-Or place the plugin folder in `site/plugins/kirby-llmsizer`.
+**Manually** — download or clone into `site/plugins/kirby-llmsizer`.
 
 ## Endpoints
 
@@ -122,4 +124,4 @@ This adds the **llmsdescription** and **llmsinstructions** fields to the panel p
 
 ## License
 
-MIT — [Nicolas Rollinger](https://rollinger.ch)
+MIT — [Nicolas Rollinger](https://rollinger.design)
